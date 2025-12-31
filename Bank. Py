@@ -1,0 +1,69 @@
+#--------- bank accountant detail------#
+class Account:
+    def __init__(self, account_number, owner_name, initial_balance=0.0):
+        if initial_balance < 0:
+            raise ValueError("Initial balance cannot be negative.")
+        self._account_number = account_number  # Encapsulation: protected attribute
+        self._owner_name = owner_name
+        self._balance = initial_balance
+#----------------constructor-------#
+    def get_account_number(self):
+        return self._account_number
+
+    def get_owner_name(self):
+        return self._owner_name
+
+    def get_balance(self):
+        return self._balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive.")
+        self._balance += amount
+        print(f"Deposited ${amount:.2f} into account {self._account_number}. New balance: ${self._balance:.2f}")
+#---------- withdrwal----#
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive.")
+        if self._balance < amount:
+            print("Insufficient funds.")
+            return False
+        self._balance -= amount
+        print(f"Withdrew ${amount:.2f} from account {self._account_number}. New balance: ${self._balance:.2f}")
+        return True
+
+    def __str__(self):
+        return f"Account Number: {self._account_number}, Owner: {self._owner_name}, Balance: ${self._balance:.2f}"
+
+
+class SavingsAccount(Account):
+    def __init__(self, account_number, owner_name, initial_balance=0.0, interest_rate=0.01):
+        super().__init__(account_number, owner_name, initial_balance)
+        self._interest_rate = interest_rate
+
+    def apply_interest(self):
+        interest = self._balance * self._interest_rate
+        self._balance += interest
+        print(f"Applied interest of ${interest:.2f} to Savings Account {self._account_number}. New balance: ${self._balance:.2f}")
+
+    def __str__(self):
+        return f"Savings Account -> {super().__str__()}, Interest Rate: {self._interest_rate * 100:.2f}%"
+
+
+class CheckingAccount(Account):
+    def __init__(self, account_number, owner_name, initial_balance=0.0, overdraft_limit=500.0):
+        super().__init__(account_number, owner_name, initial_balance)
+        self._overdraft_limit = overdraft_limit
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive.")
+        if self._balance + self._overdraft_limit < amount:
+            print("Withdrawal amount exceeds overdraft limit.")
+            return False
+        self._balance -= amount
+        print(f"Withdrew ${amount:.2f} from Checking Account {self._account_number}. New balance: ${self._balance:.2f}")
+        return True
+
+    def __str__(self):
+        return f"Checking Account -> {super().__str__()}, Overdraft Limit: ${self._overdraft_limit:.2f}"
