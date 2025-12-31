@@ -1,1 +1,1 @@
-# Bank_program
+This program is a simple banking system written in Python to showcase Object-Oriented Programming (OOP) concepts. It defines classes for different types of bank accounts (Account, SavingsAccount, CheckingAccount), Customer to hold accounts, and a Bank to manage customers and their accounts. It demonstrates inheritance, polymorphism, and encapsulation through various operations like deposits, withdrawals, interest application, and fund transfer
